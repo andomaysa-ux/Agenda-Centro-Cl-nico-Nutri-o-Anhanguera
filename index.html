@@ -10,6 +10,52 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
+/* ─── LOGIN SCREEN ─── */
+#loginScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(135deg,#1a2e1f 0%,#0d1a11 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Poppins',sans-serif;
+}
+.login-card{
+  background:#fff;border-radius:22px;padding:44px 40px;
+  width:380px;max-width:92vw;text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.45);
+}
+.login-logo{
+  width:64px;height:64px;border-radius:18px;margin:0 auto 20px;
+  background:linear-gradient(135deg,#2d6a4f,#40916c);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(45,106,79,.4);
+}
+.login-title{font-size:20px;font-weight:700;color:#141810;margin-bottom:4px}
+.login-sub{font-size:12px;color:#8a9480;margin-bottom:28px;text-transform:uppercase;letter-spacing:.6px}
+.login-label{font-size:10px;font-weight:700;color:#8a9480;text-transform:uppercase;
+  letter-spacing:.7px;text-align:left;margin-bottom:6px;display:block}
+.login-input-wrap{position:relative;margin-bottom:8px}
+.login-input{
+  width:100%;padding:12px 44px 12px 16px;border:2px solid #dddfd5;
+  border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;
+  color:#141810;outline:none;transition:border .2s;background:#f8f9f5;
+}
+.login-input:focus{border-color:#2d6a4f;background:#fff}
+.login-input.err{border-color:#ef4444;animation:shake .35s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:#8a9480;font-size:16px;padding:0}
+.login-err{font-size:11px;color:#ef4444;margin-bottom:12px;min-height:16px;text-align:left}
+.login-btn{
+  width:100%;padding:13px;border:none;border-radius:10px;cursor:pointer;
+  font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;
+  background:linear-gradient(135deg,#2d6a4f,#40916c);color:#fff;
+  box-shadow:0 4px 14px rgba(45,106,79,.35);transition:all .18s;letter-spacing:.3px;
+}
+.login-btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.login-btn:active{transform:translateY(0)}
+.login-footer{font-size:10px;color:#c0c8b8;margin-top:20px;line-height:1.6}
+#loginScreen.fade-out{animation:fadeOut .5s ease forwards}
+@keyframes fadeOut{to{opacity:0;pointer-events:none}}
+
 :root{
   --bg:#f2f3ee;--sur:#fff;--su2:#eceee6;--brd:#dddfd5;
   --t1:#141810;--t2:#414d38;--t3:#8a9480;
@@ -132,23 +178,23 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
 
 /* SLOT */
 .slot{display:flex;align-items:stretch;border-bottom:1px solid var(--brd);
-  min-height:50px;cursor:pointer;transition:background .13s}
+  height:54px;overflow:hidden;cursor:pointer;transition:background .13s}
 .slot:last-child{border-bottom:none}
 .slot:hover{background:var(--su2)}
 .st{width:38px;min-width:38px;font-size:9px;font-weight:600;color:var(--t3);
   border-right:1px solid var(--brd);display:flex;align-items:center;justify-content:center;
   font-variant-numeric:tabular-nums}
-.sb{flex:1;padding:5px 10px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.sb{flex:1;padding:4px 8px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;min-width:0}
 .sb.s-at{background:var(--fbg)}
 .sb.s-ca{background:var(--cbg)}
 .sb.s-fa{background:var(--obg)}
 .sb.s-re{background:var(--rbg)}
-.sp{font-size:11px;font-weight:600;line-height:1.2}
+.sp{font-size:11px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .s-at .sp{color:var(--ftx)}
 .s-ca .sp{color:var(--ctx);text-decoration:line-through;text-decoration-thickness:2px}
 .s-fa .sp{color:var(--otx)}
 .s-re .sp{color:var(--rtx)}
-.stel{font-size:9.5px;font-weight:500;margin-top:1.5px}
+.stel{font-size:9.5px;font-weight:500;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .s-at .stel{color:var(--t3)}
 .s-ca .stel{color:var(--ctx);opacity:.6;text-decoration:line-through}
 .s-fa .stel{color:var(--otx);opacity:.8}
@@ -226,16 +272,37 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
 
 /* RESPONSIVE */
 @media(max-width:1200px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:760px){
+@media(max-width:900px){
+  .hdr{padding:8px 14px;height:auto;min-height:60px;flex-wrap:wrap;gap:8px}
+  .hright{gap:6px;flex-wrap:wrap}
+  .main,.wnav,.mtabs{padding-left:14px;padding-right:14px}
   .grid{grid-template-columns:1fr 1fr}
-  .hdr,.main,.wnav,.mtabs{padding-left:14px;padding-right:14px}
 }
-@media(max-width:480px){.grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .hdr{padding:8px 12px}
+  .anh{display:none}
+  .cs{display:none}
+  .cn{font-size:12px}
+  .logo{width:38px;height:38px}
+  .cloud-pill{padding:5px 8px}
+  #ctxt{display:none}
+  .thb{width:26px;height:24px;font-size:11px}
+  .btn{padding:7px 10px;font-size:10px}
+  .hdiv{display:none}
+  .main,.wnav,.mtabs{padding-left:10px;padding-right:10px}
+  .grid{grid-template-columns:1fr 1fr}
+  .wl{font-size:12px}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
+  .hright{gap:4px}
+  .btn{padding:6px 8px;font-size:10px}
+}
 
 /* ═════ PDF PRINT ═════ */
 #psheet{display:none}
 @media print{
-  @page{size:A4 landscape;margin:9mm 11mm}
+  @page{size:A4 landscape;margin:8mm 10mm}
   body>*:not(#psheet){display:none!important}
   #psheet{display:block!important;font-family:'Poppins',Arial,sans-serif;font-size:9px}
   .ph{display:flex;justify-content:space-between;align-items:flex-end;
@@ -250,7 +317,8 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
   .ph-date{font-size:8.5px;color:#8a9480;margin-top:2px}
 
   .ptable{width:100%;border-collapse:collapse;table-layout:fixed}
-  .ptable th,.ptable td{border:1px solid #dddfd5;vertical-align:top;padding:0}
+  .ptable th,.ptable td{border:1px solid #dddfd5;vertical-align:top;padding:0;
+    word-break:break-word;overflow:hidden;}
 
   .ptable .th-time{background:#f2f3ee;color:#8a9480;font-size:8px;font-weight:700;
     text-align:center;width:38px;padding:5px 2px}
@@ -263,8 +331,10 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
   .ptable .th-s2{background:#fdf2e5;color:#c07000;border-bottom:2px solid #c07000}
 
   .td-time{background:#f8f9f5;text-align:center;font-size:8.5px;font-weight:700;
-    color:#8a9480;padding:3px 1px;vertical-align:middle;border-right:1px solid #dddfd5}
-  .td-ap{padding:4px 5px;min-height:42px;vertical-align:top}
+    color:#8a9480;padding:3px 1px;vertical-align:middle;border-right:1px solid #dddfd5;
+    width:36px;min-width:36px}
+  .td-ap{padding:3px 4px;min-height:40px;vertical-align:top;
+    word-break:break-word;overflow:hidden;max-width:0}
   .td-ap.empty{background:#fafafa}
   .td-ap.filled{background:#e6f4ec}
   .td-ap.cancelled{background:#fef2f2}
@@ -277,10 +347,11 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
   .b-ca{background:#fecaca;color:#b91c1c}
   .b-fa{background:#fde68a;color:#92400e}
   .b-re{background:#bfdbfe;color:#1d4ed8}
-  .ap-name{font-size:10px;font-weight:700;color:#141810;line-height:1.3}
+  .ap-name{font-size:9.5px;font-weight:700;color:#141810;line-height:1.3;
+    white-space:normal;word-break:break-word}
   .ap-name.lt{text-decoration:line-through;color:#b91c1c}
-  .ap-tel{font-size:8.5px;color:#6b7560;margin-top:1.5px}
-  .ap-team{font-size:7.5px;color:#9a9a9a;margin-top:1px;font-style:italic}
+  .ap-tel{font-size:8px;color:#6b7560;margin-top:1px;word-break:break-word}
+  .ap-team{font-size:7.5px;color:#9a9a9a;margin-top:1px;font-style:italic;word-break:break-word}
 
   .pfoot{margin-top:7px;padding-top:5px;border-top:1px solid #dddfd5;
     display:flex;justify-content:space-between;font-size:7.5px;color:#bbb}
@@ -288,6 +359,40 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
 </style>
 </head>
 <body data-theme="dia">
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="36" height="36" viewBox="0 0 34 34" fill="none">
+        <rect x="16.5" y="6" width="1.2" height="17" rx=".6" fill="rgba(255,255,255,.9)"/>
+        <polygon points="17,22 13,28 21,28" fill="rgba(255,255,255,.9)"/>
+        <rect x="11" y="28" width="12" height="1.8" rx=".9" fill="rgba(255,255,255,.9)"/>
+        <line x1="5" y1="10" x2="29" y2="10" stroke="rgba(255,255,255,.9)" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="7.5" y1="10" x2="7.5" y2="14" stroke="rgba(255,255,255,.7)" stroke-width=".9" stroke-dasharray="2 1.2"/>
+        <line x1="26.5" y1="10" x2="26.5" y2="14" stroke="rgba(255,255,255,.7)" stroke-width=".9" stroke-dasharray="2 1.2"/>
+        <circle cx="7.5" cy="11.5" r="3.3" fill="#FF8C00"/>
+        <path d="M7.5 8.2C8.2 7 9.5 7.4 9 8.4C8.5 7.8 7.5 8.2 7.5 8.2Z" fill="#52b788"/>
+        <circle cx="26.5" cy="11.5" r="3.1" fill="#5D2E0C"/>
+        <rect x="25" y="9.8" width="1.4" height=".45" rx=".22" fill="#ff6b6b" transform="rotate(-25 25 9.8)"/>
+        <rect x="26.8" y="9.2" width="1.4" height=".45" rx=".22" fill="#ffe66d" transform="rotate(15 26.8 9.2)"/>
+        <rect x="25.5" y="10.8" width="1.2" height=".45" rx=".22" fill="#a8e6cf" transform="rotate(-10 25.5 10.8)"/>
+      </svg>
+    </div>
+    <div class="login-title">Centro Clínico de Nutrição</div>
+    <div class="login-sub">Anhanguera · Acesso Restrito</div>
+    <label class="login-label" for="pwdInput">Senha de acesso</label>
+    <div class="login-input-wrap">
+      <input class="login-input" type="password" id="pwdInput"
+        placeholder="Digite a senha"
+        onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="eye-btn" onclick="togglePwd()" tabindex="-1" id="eyeBtn">👁</button>
+    </div>
+    <div class="login-err" id="loginErr"></div>
+    <button class="login-btn" onclick="doLogin()">Entrar →</button>
+    <div class="login-footer">Acesso exclusivo para a equipe do Centro Clínico.<br>Maysa · Bia · Douglas</div>
+  </div>
+</div>
 
 <!-- HEADER -->
 <div class="hdr">
@@ -877,7 +982,49 @@ document.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&mo) saveSlot();
 });
 
+// ═══ LOGIN ═══
+// Senha da equipe — pode alterar aqui se quiser mudar no futuro
+const SENHA="nutri2026";
+const LS_AUTH="cc_auth_v5";
+
+function checkAuth(){
+  // Se já autenticou neste navegador nas últimas 12h, entra direto
+  const saved=localStorage.getItem(LS_AUTH);
+  if(saved&&(Date.now()-parseInt(saved))<43200000){
+    document.getElementById("loginScreen").style.display="none";
+    return;
+  }
+  // Foca o campo de senha
+  setTimeout(()=>document.getElementById("pwdInput").focus(),100);
+}
+
+function doLogin(){
+  const val=document.getElementById("pwdInput").value;
+  const inp=document.getElementById("pwdInput");
+  const err=document.getElementById("loginErr");
+  if(val===SENHA){
+    localStorage.setItem(LS_AUTH,Date.now().toString());
+    const screen=document.getElementById("loginScreen");
+    screen.classList.add("fade-out");
+    setTimeout(()=>screen.style.display="none",500);
+  } else {
+    inp.classList.add("err");
+    err.textContent="Senha incorreta. Tente novamente.";
+    inp.value="";
+    setTimeout(()=>{inp.classList.remove("err");err.textContent="";},1500);
+    inp.focus();
+  }
+}
+
+function togglePwd(){
+  const inp=document.getElementById("pwdInput");
+  const btn=document.getElementById("eyeBtn");
+  if(inp.type==="password"){inp.type="text";btn.textContent="🙈";}
+  else{inp.type="password";btn.textContent="👁";}
+}
+
 // ═══ INIT ═══
+checkAuth();
 setTheme(localStorage.getItem("cc_thm_v5")||"dia");
 loadLocal();
 renderTabs();
