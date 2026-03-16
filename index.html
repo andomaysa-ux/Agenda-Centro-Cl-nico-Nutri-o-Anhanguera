@@ -257,6 +257,19 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
 .bc{background:var(--su2);color:var(--t2);border:1px solid var(--brd);
   font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;padding:8px 14px;border-radius:var(--rs);cursor:pointer}
 
+/* RETORNO PICKER */
+.ret-picker{margin-top:10px;border-top:1px solid var(--brd);padding-top:10px}
+.ret-picker-title{font-size:9.5px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
+.ret-sala-label{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px;margin-top:8px}
+.ret-slots{display:flex;flex-wrap:wrap;gap:5px}
+.ret-slot{padding:5px 10px;border-radius:8px;border:1.5px solid var(--brd);
+  background:var(--su2);color:var(--t2);font-family:'Poppins',sans-serif;
+  font-size:10px;font-weight:600;cursor:pointer;transition:all .15s}
+.ret-slot:hover{border-color:var(--acc);color:var(--acc);background:var(--acL)}
+.ret-slot.sel{border-color:#25d366;background:#dcfce7;color:#15803d}
+.ret-slot.ocu{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.ret-empty{font-size:10px;color:var(--t3);font-style:italic}
+
 /* SETUP MODAL */
 .setup-modal{max-width:500px}
 .setup-step{display:flex;gap:12px;padding:14px;background:var(--su2);
@@ -466,6 +479,7 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
       <button class="thb" onclick="setTheme('noite')">🌙</button>
     </div>
     <button class="btn bo" onclick="openBlock()">🔒 Bloquear</button>
+    <button class="btn bo" onclick="openAnalytics()">📊 Análise</button>
     <button class="btn bo" onclick="doExportPNG()">🖼 PNG</button>
     <button class="btn bp" onclick="exportXL()">📊 Excel</button>
   </div>
@@ -489,6 +503,7 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
   </div>
   <div class="mob-drawer-title" style="margin-top:8px">Ações</div>
   <button class="btn bo" style="width:100%;justify-content:flex-start" onclick="closeMobMenu();openBlock()">🔒 Bloquear horários</button>
+  <button class="btn bo" style="width:100%;justify-content:flex-start" onclick="closeMobMenu();openAnalytics()">📊 Análise da semana</button>
   <button class="btn bo" style="width:100%;justify-content:flex-start" onclick="closeMobMenu();doExportPNG()">🖼 Exportar PNG</button>
   <button class="btn bp" style="width:100%;justify-content:flex-start" onclick="closeMobMenu();exportXL()">📊 Exportar Excel</button>
 </div>
@@ -514,6 +529,34 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
     <div class="fld"><div class="fl">Telefone</div><input class="fi" id="fTel" placeholder="11 9xxxx-xxxx" autocomplete="off"></div>
     <div class="fld"><div class="fl">Aluno(a)</div><input class="fi" id="fAlu" placeholder="Nome do(a) aluno(a)" autocomplete="off"></div>
     <div class="fld"><div class="fl">Monitor(a)</div><input class="fi" id="fMon" placeholder="Maysa / Bia / Douglas" autocomplete="off"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fld">
+        <div class="fl">Pagamento</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:2px" id="pgRow">
+          <button class="stp" id="pg-" onclick="selPg('')">— Nenhum</button>
+          <button class="stp" id="pg-pix" onclick="selPg('pix')">Pix</button>
+          <button class="stp" id="pg-din" onclick="selPg('dinheiro')">💵 Dinheiro</button>
+          <button class="stp" id="pg-deb" onclick="selPg('debito')">💳 Débito</button>
+          <button class="stp" id="pg-cre" onclick="selPg('credito')">💳 Crédito</button>
+        </div>
+      </div>
+      <div class="fld">
+        <div class="fl">Valor (R$)</div>
+        <div style="display:flex;gap:6px;margin-bottom:5px">
+          <button onclick="setVal(25)" style="flex:1;padding:6px 4px;border-radius:8px;border:1.5px solid #bfdbfe;
+            background:#eff6ff;color:#1d4ed8;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s"
+            onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+            R$ 25 <span style="font-weight:400;font-size:9px;display:block;color:#3b82f6">1ª consulta</span>
+          </button>
+          <button onclick="setVal(10)" style="flex:1;padding:6px 4px;border-radius:8px;border:1.5px solid #d1fae5;
+            background:#ecfdf5;color:#065f46;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s"
+            onmouseover="this.style.background='#a7f3d0'" onmouseout="this.style.background='#ecfdf5'">
+            R$ 10 <span style="font-weight:400;font-size:9px;display:block;color:#10b981">Retorno</span>
+          </button>
+        </div>
+        <input class="fi" id="fVal" placeholder="ou digite outro valor" type="number" min="0" step="0.01" autocomplete="off">
+      </div>
+    </div>
     <div class="fld">
       <div class="fl">Status da consulta</div>
       <div class="strow">
@@ -527,6 +570,32 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
       <button class="btn bp" onclick="saveSlot()" style="flex:1;justify-content:center">✓ Salvar</button>
       <button class="bd" onclick="delSlot()">✕ Apagar</button>
       <button class="bc" onclick="closeM()">Cancelar</button>
+    </div>
+    <div id="retornoBtn" style="display:none;margin-top:12px">
+      <div style="border:2px dashed #93c5fd;border-radius:12px;padding:14px 16px;background:linear-gradient(135deg,#eff6ff,#f0fdf4);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(16,185,129,.06));pointer-events:none"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <span style="font-size:16px">🔁</span>
+          <span style="font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:#1e40af">Agendar retorno</span>
+          <span style="font-family:'Poppins',sans-serif;font-size:10px;color:#64748b;background:#e2e8f0;padding:2px 8px;border-radius:10px;margin-left:auto">próximo dia útil em ~7 dias</span>
+        </div>
+
+        <!-- Picker de horários -->
+        <div class="ret-picker">
+          <div class="ret-picker-title" id="retPickerDate">Horários disponíveis</div>
+          <div id="retPickerSlots"></div>
+        </div>
+
+        <button onclick="agendarRetornoComWhatsApp()" style="width:100%;margin-top:12px;padding:10px 12px;border-radius:9px;
+          border:none;background:#25d366;color:#fff;font-family:'Poppins',sans-serif;
+          font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;
+          box-shadow:0 2px 8px rgba(37,211,102,.3);display:flex;align-items:center;justify-content:center;gap:6px"
+          onmouseover="this.style.background='#128c7e';this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.background='#25d366';this.style.transform='none'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Agendar retorno e avisar pelo WhatsApp
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -553,6 +622,46 @@ body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--t1);min-h
   </div>
 </div>
 
+<!-- ANALYTICS MODAL -->
+<div class="ovl" id="aovl" onclick="aovlC(event)">
+  <div style="width:740px;max-width:96vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;
+    border-radius:20px;background:#fff;box-shadow:0 32px 80px rgba(0,0,0,.28);
+    animation:aIn .32s cubic-bezier(.16,1,.3,1) both">
+    <style>
+      @keyframes aIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+      .atab{padding:7px 22px;border-radius:30px;border:none;font-family:'Poppins',sans-serif;
+        font-size:11px;font-weight:600;cursor:pointer;letter-spacing:.3px;transition:all .2s}
+      .atab.on{background:#0f172a;color:#fff;box-shadow:0 2px 12px rgba(15,23,42,.25)}
+      .atab.off{background:transparent;color:#94a3b8}
+      .atab.off:hover{color:#334155}
+    </style>
+    <!-- Header gradient band -->
+    <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#1d4ed8 100%);
+      padding:24px 28px 20px;flex-shrink:0">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:-.2px">Relatório de Desempenho</div>
+          <div style="font-family:'Poppins',sans-serif;font-size:10.5px;color:rgba(255,255,255,.55);margin-top:3px" id="aSubtitle"></div>
+        </div>
+        <button onclick="closeAnalytics()" style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.12);
+          border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-size:13px;cursor:pointer;
+          display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;
+          transition:all .15s;flex-shrink:0"
+          onmouseover="this.style.background='rgba(255,255,255,.22)';this.style.color='#fff'"
+          onmouseout="this.style.background='rgba(255,255,255,.12)';this.style.color='rgba(255,255,255,.7)'">✕</button>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:16px;background:rgba(255,255,255,.1);
+        border-radius:30px;padding:3px;width:fit-content">
+        <button id="aTabSem" class="atab on" onclick="setATab('semana')">Semana</button>
+        <button id="aTabMes" class="atab off" onclick="setATab('mes')">Mês</button>
+      </div>
+    </div>
+    <!-- Body -->
+    <div id="analyticsBody" style="overflow-y:auto;padding:24px 28px 28px;background:#f8fafc;flex:1;
+      scrollbar-width:thin;scrollbar-color:#cbd5e1 transparent"></div>
+  </div>
+</div>
+
 <div id="psheet"></div>
 <div class="toast" id="toast"></div>
 
@@ -574,7 +683,7 @@ const HOL={
 const TIMES=["16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00"];
 const WKD=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
 const SEED={
-  "2026-03-16_1_16:00":{p:"Fábio (43)",t:"11 98445-243",a:"Maria",m:"Maysa",s:"ativo"},
+  "2026-03-16_1_16:00":{p:"Fábio (43)",t:"11 98445-2113",a:"Maria",m:"Maysa",s:"ativo"},
   "2026-03-16_2_16:00":{p:"Maria (53)",t:"11 94947-1631",a:"Cris",m:"Bia",s:"ativo"},
   "2026-03-16_1_17:00":{p:"Katia (44)",t:"11 99455-1230",a:"Lari",m:"Bia",s:"ativo"},
   "2026-03-16_2_17:00":{p:"Rafael (35)",t:"11 95659-3984",a:"Edna",m:"Maysa",s:"ativo"},
@@ -587,7 +696,7 @@ const SEED={
   "2026-03-19_1_19:00":{p:"Cristina (52)",t:"-",a:"",m:"",s:"ativo"},
   "2026-03-20_1_16:00":{p:"Nayara (24)",t:"11 93958-8826",a:"",m:"Maysa",s:"ativo"},
   "2026-03-24_1_17:00":{p:"Aline (41)",t:"11 97973-8334",a:"",m:"",s:"ativo"},
-  "2026-03-31_1_20:00":{p:"Francine (45)",t:"11 99164-746",a:"",m:"Bia",s:"ativo"},
+  "2026-03-24_1_20:00":{p:"Francine (45)",t:"11 99164-746",a:"",m:"Bia",s:"ativo"},
 };
 
 // ═══ STATE ═══
@@ -881,6 +990,7 @@ function renderDays(days){
 }
 
 // ═══ SLOT MODAL ═══
+let curPg="";
 function openM(key,date,sala,time){
   editKey=key;const a=appts[key]||{};
   document.getElementById("mtt").textContent=`${time} — ${WKD[date.getDay()]}, ${fd(date)}`;
@@ -892,12 +1002,33 @@ function openM(key,date,sala,time){
   document.getElementById("fTel").value=a.t||"";
   document.getElementById("fAlu").value=a.a||"";
   document.getElementById("fMon").value=a.m||"";
+  document.getElementById("fVal").value=a.vl||"";
+  curPg=a.pg||"";
+  ["","pix","dinheiro","debito","credito"].forEach(pg=>{
+    const id="pg-"+(pg||"");
+    const el=document.getElementById(id);
+    if(el) el.className="stp"+(pg===curPg?" p-at":"");
+  });
   curSt=a.s||"ativo";
   ["ativo","cancelado","faltou","remarcado"].forEach(s=>{
     document.getElementById("p-"+s.slice(0,2)).className="stp"+(s===curSt?" p-"+s.slice(0,2):"");
   });
   document.getElementById("ovl").classList.add("open");
+  // botão de retorno: só aparece quando já há paciente salvo
+  document.getElementById("retornoBtn").style.display=(a.p?"block":"none");
+  if(a.p) renderRetornoPicker(editKey);
   setTimeout(()=>document.getElementById("fPac").focus(),150);
+}
+function setVal(v){
+  const el=document.getElementById("fVal");
+  if(el){ el.value=v; el.style.borderColor="var(--acc)"; setTimeout(()=>el.style.borderColor="",800); }
+}
+function selPg(pg){
+  curPg=pg;
+  ["","pix","dinheiro","debito","credito"].forEach(p=>{
+    const el=document.getElementById("pg-"+(p||""));
+    if(el) el.className="stp"+(p===pg?" p-at":"");
+  });
 }
 function selS(s){
   curSt=s;
@@ -912,8 +1043,10 @@ async function saveSlot(){
   if(!editKey)return;
   const pac=document.getElementById("fPac").value.trim();
   if(pac){
+    const vl=parseFloat(document.getElementById("fVal").value)||0;
     const data={p:pac,t:document.getElementById("fTel").value.trim(),
-      a:document.getElementById("fAlu").value.trim(),m:document.getElementById("fMon").value.trim(),s:curSt};
+      a:document.getElementById("fAlu").value.trim(),m:document.getElementById("fMon").value.trim(),
+      s:curSt,pg:curPg,vl:vl||undefined};
     const key=editKey;
     appts[key]=data;
     saveLocal();
@@ -1461,6 +1594,721 @@ async function applyBlock(){
   }
 }
 
+// ═══ ANALYTICS ═══
+let aTab="semana";
+function openAnalytics(){
+  document.getElementById("aovl").classList.add("open");
+  aTab="semana";
+  // Use setTimeout to ensure modal DOM is visible before styling
+  setTimeout(()=>{ _styleATabs(); buildAnalytics(); }, 10);
+}
+function closeAnalytics(){ document.getElementById("aovl").classList.remove("open"); }
+function aovlC(e){ if(e.target===document.getElementById("aovl")) closeAnalytics(); }
+function setATab(t){ aTab=t; _styleATabs(); buildAnalytics(); }
+function _styleATabs(){
+  const sem=document.getElementById("aTabSem");
+  const mes=document.getElementById("aTabMes");
+  if(!sem||!mes) return;
+  sem.className="atab "+(aTab==="semana"?"on":"off");
+  mes.className="atab "+(aTab==="mes"?"on":"off");
+}
+
+function _collectData(dates){
+  let total=0, atendidos=0, cancelados=0, faltas=0, faturado=0;
+  const porAluno={}, porMon={}, porPg={pix:0,dinheiro:0,debito:0,credito:0};
+  dates.forEach(date=>{
+    const dKey=dk(date);
+    TIMES.forEach(t=>{
+      [1,2].forEach(sala=>{
+        const a=appts[`${dKey}_${sala}_${t}`];
+        if(!a||!a.p||a.blocked) return;
+        total++;
+        const st=a.s||"ativo";
+        if(st==="cancelado") cancelados++;
+        else if(st==="faltou") faltas++;
+        else {
+          atendidos++;
+          faturado+=parseFloat(a.vl)||0;
+          if(a.pg&&porPg[a.pg]!==undefined) porPg[a.pg]++;
+        }
+        if(a.a&&a.a.trim()) porAluno[a.a.trim()]=(porAluno[a.a.trim()]||0)+1;
+        if(a.m&&a.m.trim()) porMon[a.m.trim()]=(porMon[a.m.trim()]||0)+1;
+      });
+    });
+  });
+  return {total,atendidos,cancelados,faltas,faturado,porAluno,porMon,porPg};
+}
+
+function buildAnalytics(){
+  if(!weeks||!weeks.length) return;
+  const w=weeks[curW]||weeks[0];
+  const [,mo]=MONTHS[curM].k.split("-").map(Number);
+
+  let dates=[];
+  if(aTab==="semana"){
+    dates=[...w];
+    const sub=document.getElementById("aSubtitle");
+    if(sub) sub.textContent=`Semana ${fd(w[0])} a ${fd(w[4])} · ${MONTHS[curM].n} 2026`;
+  } else {
+    weeks.forEach(wk=>wk.forEach(d=>{ if(d.getMonth()+1===mo) dates.push(d); }));
+    const sub=document.getElementById("aSubtitle");
+    if(sub) sub.textContent=`${MONTHS[curM].n} 2026 · visão mensal`;
+  }
+
+  const d=_collectData(dates);
+  const alunosArr=Object.entries(d.porAluno).sort((a,b)=>b[1]-a[1]);
+  const monArr=Object.entries(d.porMon).sort((a,b)=>b[1]-a[1]);
+  const pgTotal=Object.values(d.porPg).reduce((s,v)=>s+v,0);
+
+  const ALU_COLORS=["#2563eb","#7c3aed","#0891b2","#059669","#d97706","#dc2626","#db2777","#4338ca"];
+  const MON_COLORS=["#2563eb","#d97706","#059669","#7c3aed","#0891b2"];
+  const PG_COLORS={pix:"#2563eb",dinheiro:"#059669",debito:"#7c3aed",credito:"#dc2626"};
+  const PG_LABELS={pix:"Pix",dinheiro:"Dinheiro",debito:"Débito",credito:"Crédito"};
+
+  const body=document.getElementById("analyticsBody");
+
+  // section header
+  const sh=(t,n="")=>`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <span style="font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:#1e293b;letter-spacing:.1px">${t}</span>
+    ${n?`<span style="font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;color:#2563eb;background:#eff6ff;padding:2px 10px;border-radius:20px;border:1px solid #bfdbfe">${n}</span>`:""}
+  </div>`;
+
+  // ── KPI cards ──
+  const kpiHtml=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+    ${[
+      {v:d.total,       l:"Agendados",   c:"#475569", bg:"#f1f5f9", border:"#e2e8f0"},
+      {v:d.atendidos,   l:"Atendidos",   c:"#1d4ed8", bg:"#eff6ff", border:"#bfdbfe"},
+      {v:d.cancelados+d.faltas, l:"Ausências", c:"#dc2626", bg:"#fef2f2", border:"#fecaca"},
+      {v:d.faturado>0?"R$"+d.faturado.toFixed(2).replace(".",","):"R$ 0,00", l:"Faturamento", c:"#065f46", bg:"#ecfdf5", border:"#a7f3d0"},
+    ].map(({v,l,c,bg,border})=>`
+      <div style="background:${bg};border:1.5px solid ${border};border-radius:14px;padding:14px 16px">
+        <div style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:${c};line-height:1;letter-spacing:-.5px">${v}</div>
+        <div style="font-family:'Poppins',sans-serif;font-size:9px;color:#64748b;margin-top:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">${l}</div>
+      </div>`).join("")}
+  </div>`;
+
+  // ── Alunas — barras SVG animadas ──
+  const maxV=alunosArr[0]?.[1]||1;
+  const nW=108, numW=30, gap=10, bH=24, bGap=12, bPad=4, bTotal=460;
+  const trackW=bTotal-nW-numW-gap*2;
+  const svgH=alunosArr.length===0?40:alunosArr.length*(bH+bGap)+bPad*2;
+
+  const aluHtml=`<div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;margin-bottom:16px">
+    ${sh("Atendimentos por Aluna",alunosArr.length+" aluna"+(alunosArr.length!==1?"s":""))}
+    ${alunosArr.length===0
+      ? `<div style="text-align:center;padding:20px;color:#94a3b8;font-size:12px;font-style:italic;font-family:'Poppins',sans-serif">Nenhum atendimento registrado</div>`
+      : `<svg width="100%" viewBox="0 0 ${bTotal} ${svgH}" style="display:block;overflow:visible">
+          <defs>${alunosArr.map(([,n],i)=>{
+            const bw=Math.max(4,Math.round((n/maxV)*trackW));
+            const cor=ALU_COLORS[i%ALU_COLORS.length];
+            return `<clipPath id="ac${i}"><rect x="${nW+gap}" y="${bPad+i*(bH+bGap)}" width="0" height="${bH}" rx="5">
+              <animate attributeName="width" from="0" to="${bw}" dur=".65s" begin="${.08+i*.1}s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+            </rect></clipPath>
+            <linearGradient id="bg${i}" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="${cor}" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="${cor}"/>
+            </linearGradient>`;
+          }).join("")}</defs>
+          ${alunosArr.map(([nome,n],i)=>{
+            const y=bPad+i*(bH+bGap);
+            const bw=Math.max(4,Math.round((n/maxV)*trackW));
+            const cor=ALU_COLORS[i%ALU_COLORS.length];
+            return `
+              <text x="${nW}" y="${y+bH/2+4}" font-size="11.5" font-family="Poppins,sans-serif" font-weight="600" fill="#475569" text-anchor="end">${nome}</text>
+              <rect x="${nW+gap}" y="${y}" width="${trackW}" height="${bH}" rx="5" fill="#f1f5f9"/>
+              <rect x="${nW+gap}" y="${y}" width="${bw}" height="${bH}" rx="5" fill="url(#bg${i})" clip-path="url(#ac${i})"/>
+              <text x="${nW+gap+trackW+gap}" y="${y+bH/2+4.5}" font-size="12.5" font-family="Poppins,sans-serif" font-weight="700" fill="${cor}" text-anchor="start">${n}</text>`;
+          }).join("")}
+        </svg>`}
+  </div>`;
+
+  // ── Monitoras — colunas verticais ──
+  const monMax=monArr[0]?.[1]||1;
+  const monTot=monArr.reduce((s,[,v])=>s+v,0)||1;
+  const monHtml=`<div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;margin-bottom:16px">
+    ${sh("Presença das Monitoras",monArr.reduce((s,[,v])=>s+v,0)+" atendimentos")}
+    ${monArr.length===0
+      ? `<div style="text-align:center;padding:20px;color:#94a3b8;font-size:12px;font-style:italic;font-family:'Poppins',sans-serif">Nenhum dado registrado</div>`
+      : `<div style="display:flex;gap:12px;align-items:flex-end;justify-content:center;padding:4px 8px 8px">
+          ${monArr.map(([nome,n],i)=>{
+            const cor=MON_COLORS[i%MON_COLORS.length];
+            const colH=Math.max(10,Math.round((n/monMax)*90));
+            const pct=Math.round(n/monTot*100);
+            return `<div style="flex:1;max-width:160px;display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div style="font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:${cor};line-height:1">${n}</div>
+              <div style="width:100%;background:#f1f5f9;border-radius:8px 8px 0 0;height:96px;display:flex;align-items:flex-end;overflow:hidden">
+                <div style="width:100%;background:linear-gradient(180deg,${cor},${cor}99);border-radius:6px 6px 0 0;
+                  height:${colH}px;animation:colUp .65s ${.1+i*.12}s cubic-bezier(.22,1,.36,1) both"></div>
+              </div>
+              <div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:#334155">${nome}</div>
+              <div style="font-family:'Poppins',sans-serif;font-size:10px;color:#94a3b8">${pct}%</div>
+            </div>`;
+          }).join("")}
+        </div>
+        <style>@keyframes colUp{from{height:0 !important}to{}}</style>`}
+  </div>`;
+
+  // ── Pagamentos — donut ──
+  const pgEntries=Object.entries(d.porPg).filter(([,v])=>v>0);
+  let pgHtml;
+  if(pgTotal===0){
+    pgHtml=`<div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px">
+      ${sh("Formas de Pagamento")}
+      <div style="text-align:center;padding:20px;color:#94a3b8;font-size:12px;font-style:italic;font-family:'Poppins',sans-serif">Nenhum pagamento registrado</div>
+    </div>`;
+  } else {
+    const r=44,cx=60,cy=60,sw=15,circ=2*Math.PI*r;
+    let off=0;
+    const arcs=pgEntries.map(([pg,n])=>{
+      const dash=(n/pgTotal)*circ;
+      const arc=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${PG_COLORS[pg]}"
+        stroke-width="${sw}" stroke-dasharray="${dash} ${circ-dash}"
+        stroke-dashoffset="${-off}" transform="rotate(-90 ${cx} ${cy})"/>`;
+      off+=dash; return arc;
+    }).join("");
+    const legend=pgEntries.map(([pg,n])=>`
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+        <div style="width:10px;height:10px;border-radius:3px;background:${PG_COLORS[pg]};flex-shrink:0"></div>
+        <span style="font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;color:#334155;flex:1">${PG_LABELS[pg]}</span>
+        <span style="font-family:'Poppins',sans-serif;font-size:11px;color:#64748b">${n}</span>
+        <span style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:${PG_COLORS[pg]};width:34px;text-align:right">${Math.round(n/pgTotal*100)}%</span>
+      </div>`).join("");
+    pgHtml=`<div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px">
+      ${sh("Formas de Pagamento",pgTotal+" pagamento"+(pgTotal!==1?"s":""))}
+      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120" style="flex-shrink:0">
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f1f5f9" stroke-width="${sw}"/>
+          ${arcs}
+          <text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="18" font-weight="800" font-family="Poppins,sans-serif" fill="#1e293b">${pgTotal}</text>
+          <text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="7.5" font-family="Poppins,sans-serif" fill="#94a3b8" letter-spacing="1">TOTAL</text>
+        </svg>
+        <div style="flex:1;min-width:110px">${legend}</div>
+      </div>
+    </div>`;
+  }
+
+  body.innerHTML=kpiHtml+aluHtml+monHtml+pgHtml+`
+    <div style="display:flex;gap:8px;margin-top:6px;padding-top:16px;border-top:1px solid #e2e8f0">
+      <button onclick="exportAnalyticsPNG('semana')" style="flex:1;padding:10px;border-radius:10px;
+        border:1.5px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;font-family:'Poppins',sans-serif;
+        font-size:11px;font-weight:600;cursor:pointer;transition:all .15s"
+        onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+        🖼 Baixar semana
+      </button>
+      <button onclick="exportAnalyticsPNG('mes')" style="flex:1;padding:10px;border-radius:10px;
+        border:1.5px solid #d1fae5;background:#ecfdf5;color:#065f46;font-family:'Poppins',sans-serif;
+        font-size:11px;font-weight:600;cursor:pointer;transition:all .15s"
+        onmouseover="this.style.background='#a7f3d0'" onmouseout="this.style.background='#ecfdf5'">
+        🖼 Baixar mês
+      </button>
+      <button onclick="exportAnalyticsPNG('ambos')" style="flex:1;padding:10px;border-radius:10px;
+        border:1.5px solid #e9d5ff;background:#faf5ff;color:#6d28d9;font-family:'Poppins',sans-serif;
+        font-size:11px;font-weight:600;cursor:pointer;transition:all .15s"
+        onmouseover="this.style.background='#ede9fe'" onmouseout="this.style.background='#faf5ff'">
+        🖼 Semana + Mês
+      </button>
+    </div>
+  `;
+}
+
+function _kpi(v,l,c,bg){return "";}
+// ═══ ANALYTICS PNG ═══
+function exportAnalyticsPNG(mode){
+  toast("🖼 Gerando imagem…");
+  setTimeout(()=>{
+    const w=weeks[curW]||weeks[0];
+    const [,mo]=MONTHS[curM].k.split("-").map(Number);
+
+    const getDatesSemana=()=>[...w];
+    const getDatesmes=()=>{
+      const arr=[];
+      weeks.forEach(wk=>wk.forEach(d=>{ if(d.getMonth()+1===mo) arr.push(d); }));
+      return arr;
+    };
+
+    if(mode==="semana"){
+      const d=_collectData(getDatesSemana());
+      const label=`Semana ${fd(w[0])} a ${fd(w[4])} · ${MONTHS[curM].n} 2026`;
+      _drawAnalyticsPNG([{d,label}], `Analise_Semana_${fd(w[0]).replace("/","-")}_${MONTHS[curM].l}.png`);
+    } else if(mode==="mes"){
+      const d=_collectData(getDatesmes());
+      const label=`${MONTHS[curM].n} 2026 · visão mensal`;
+      _drawAnalyticsPNG([{d,label}], `Analise_${MONTHS[curM].l}_2026.png`);
+    } else {
+      const ds=_collectData(getDatesSemana());
+      const dm=_collectData(getDatesmes());
+      const ls=`Semana ${fd(w[0])} a ${fd(w[4])}`;
+      const lm=`${MONTHS[curM].n} 2026 · Mensal`;
+      _drawAnalyticsPNG([{d:ds,label:ls},{d:dm,label:lm}], `Analise_Semana_e_Mes_${MONTHS[curM].l}.png`);
+    }
+  },100);
+}
+
+function _drawAnalyticsPNG(panels, filename){
+  const font="'Poppins',system-ui,sans-serif";
+  const PW=900, PAD=40, SEC=16, COL_GAP=60;
+  const cols=panels.length;
+  const CW=cols>1?(PW-PAD*2-COL_GAP)/2:PW-PAD*2;
+  const ALU_C=["#2563eb","#7c3aed","#0891b2","#059669","#d97706","#dc2626","#db2777","#4338ca"];
+  const MON_C=["#2563eb","#d97706","#059669","#7c3aed","#0891b2"];
+  const PG_C={pix:"#2563eb",dinheiro:"#059669",debito:"#7c3aed",credito:"#dc2626"};
+  const PG_L={pix:"Pix",dinheiro:"Dinheiro",debito:"Débito",credito:"Crédito"};
+
+  // measure height needed per panel
+  function panelH(d){
+    const aluN=Object.keys(d.porAluno).length;
+    const monN=Object.keys(d.porMon).length;
+    const pgN=Object.entries(d.porPg).filter(([,v])=>v>0).length;
+    return 60+90 + SEC + // header+kpis
+      SEC+30+(aluN===0?40:aluN*32+8) + // alunas
+      SEC+30+(monN===0?40:130) + // monitoras
+      SEC+30+(pgN===0?40:Math.max(120,pgN*30+30)); // pagamentos
+  }
+
+  const maxH=Math.max(...panels.map(({d})=>panelH(d)));
+  const CH=PAD*2+60+maxH; // 60 for title bar
+  const canvas=document.createElement("canvas");
+  canvas.width=PW*2; canvas.height=CH*2;
+  const ctx=canvas.getContext("2d");
+  ctx.scale(2,2);
+
+  // background
+  ctx.fillStyle="#f8fafc"; ctx.fillRect(0,0,PW,CH);
+
+  // header band
+  const grad=ctx.createLinearGradient(0,0,PW,0);
+  grad.addColorStop(0,"#0f172a"); grad.addColorStop(.6,"#1e3a5f"); grad.addColorStop(1,"#1d4ed8");
+  ctx.fillStyle=grad; ctx.fillRect(0,0,PW,56);
+
+  ctx.fillStyle="#fff"; ctx.font=`700 16px ${font}`; ctx.textAlign="left";
+  ctx.fillText("Relatório de Desempenho — Centro Clínico de Nutrição · Anhanguera", PAD, 34);
+  ctx.font=`400 10px ${font}`; ctx.fillStyle="rgba(255,255,255,.6)"; ctx.textAlign="right";
+  ctx.fillText(`Gerado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}`, PW-PAD, 34);
+
+  // draw each panel
+  panels.forEach(({d,label},pi)=>{
+    const X=PAD+pi*(CW+COL_GAP);
+    let Y=56+PAD;
+
+    // panel label
+    ctx.fillStyle="#1e293b"; ctx.font=`700 13px ${font}`; ctx.textAlign="left";
+    ctx.fillText(label, X, Y+14);
+    Y+=30;
+
+    // KPIs
+    const kpis=[
+      {v:d.total,        l:"Agendados",  c:"#475569",bg:"#f1f5f9"},
+      {v:d.atendidos,    l:"Atendidos",  c:"#1d4ed8",bg:"#eff6ff"},
+      {v:d.cancelados+d.faltas,l:"Ausências",c:"#dc2626",bg:"#fef2f2"},
+      {v:d.faturado>0?"R$"+d.faturado.toFixed(2).replace(".",","):"R$0",l:"Faturamento",c:"#065f46",bg:"#ecfdf5"},
+    ];
+    const kW=(CW-SEC*3)/4;
+    kpis.forEach((k,i)=>{
+      const kx=X+i*(kW+SEC);
+      _rrect(ctx,kx,Y,kW,60,8,k.bg);
+      ctx.fillStyle=k.c; ctx.font=`800 18px ${font}`; ctx.textAlign="left";
+      ctx.fillText(String(k.v).length>6?String(k.v).substring(0,6):k.v, kx+10, Y+26);
+      ctx.fillStyle="#64748b"; ctx.font=`600 8px ${font}`;
+      ctx.fillText(k.l.toUpperCase(), kx+10, Y+44);
+    });
+    Y+=76;
+
+    // section helper
+    const sec=(title)=>{
+      ctx.fillStyle="#1e293b"; ctx.font=`700 11px ${font}`; ctx.textAlign="left";
+      ctx.fillText(title, X, Y+11);
+      ctx.strokeStyle="#e2e8f0"; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(X,Y+18); ctx.lineTo(X+CW,Y+18); ctx.stroke();
+      Y+=24;
+    };
+
+    // Alunas
+    sec("ATENDIMENTOS POR ALUNA");
+    const aluArr=Object.entries(d.porAluno).sort((a,b)=>b[1]-a[1]);
+    const maxA=aluArr[0]?.[1]||1;
+    if(aluArr.length===0){
+      ctx.fillStyle="#94a3b8"; ctx.font=`400 10px ${font}`; ctx.textAlign="center";
+      ctx.fillText("Nenhum atendimento registrado", X+CW/2, Y+18); Y+=36;
+    } else {
+      const nW=80, numW=20, bH=18, bG=8, tW=CW-nW-numW-16;
+      aluArr.forEach(([nome,n],i)=>{
+        const bw=Math.max(3,Math.round((n/maxA)*tW));
+        const cor=ALU_C[i%ALU_C.length];
+        ctx.fillStyle="#64748b"; ctx.font=`500 10px ${font}`; ctx.textAlign="right";
+        let nm=nome; if(ctx.measureText(nm).width>nW-4){while(ctx.measureText(nm+"…").width>nW-4&&nm.length>1)nm=nm.slice(0,-1);nm+="…";}
+        ctx.fillText(nm, X+nW, Y+bH/2+4);
+        _rrect(ctx,X+nW+8,Y,tW,bH,4,"#f1f5f9");
+        const g=ctx.createLinearGradient(X+nW+8,0,X+nW+8+bw,0);
+        g.addColorStop(0,cor+"88"); g.addColorStop(1,cor);
+        _rrect(ctx,X+nW+8,Y,bw,bH,4,g);
+        ctx.fillStyle=cor; ctx.font=`700 11px ${font}`; ctx.textAlign="left";
+        ctx.fillText(n, X+nW+8+tW+6, Y+bH/2+4);
+        Y+=bH+bG;
+      });
+      Y+=4;
+    }
+
+    // Monitoras
+    sec("PRESENÇA DAS MONITORAS");
+    const monArr2=Object.entries(d.porMon).sort((a,b)=>b[1]-a[1]);
+    const monMax2=monArr2[0]?.[1]||1;
+    const monTot2=monArr2.reduce((s,[,v])=>s+v,0)||1;
+    if(monArr2.length===0){
+      ctx.fillStyle="#94a3b8"; ctx.font=`400 10px ${font}`; ctx.textAlign="center";
+      ctx.fillText("Nenhum dado registrado", X+CW/2, Y+18); Y+=36;
+    } else {
+      const colW=Math.min(80,(CW-8*(monArr2.length-1))/monArr2.length);
+      const barMaxH=80;
+      monArr2.forEach(([nome,n],i)=>{
+        const cor=MON_C[i%MON_C.length];
+        const cx2=X+i*(colW+8)+colW/2;
+        const bh=Math.max(6,Math.round((n/monMax2)*barMaxH));
+        ctx.fillStyle=cor; ctx.font=`800 16px ${font}`; ctx.textAlign="center";
+        ctx.fillText(n, cx2, Y+18);
+        _rrect(ctx,cx2-colW/2+4,Y+24,colW-8,barMaxH,"0","#f1f5f9");
+        const cg=ctx.createLinearGradient(0,Y+24+barMaxH-bh,0,Y+24+barMaxH);
+        cg.addColorStop(0,cor); cg.addColorStop(1,cor+"99");
+        _rrect(ctx,cx2-colW/2+4,Y+24+barMaxH-bh,colW-8,bh,"0",cg);
+        ctx.fillStyle="#334155"; ctx.font=`600 10px ${font}`; ctx.textAlign="center";
+        let nm2=nome; if(ctx.measureText(nm2).width>colW){while(ctx.measureText(nm2).width>colW&&nm2.length>1)nm2=nm2.slice(0,-1);}
+        ctx.fillText(nm2, cx2, Y+24+barMaxH+14);
+        ctx.fillStyle="#94a3b8"; ctx.font=`400 9px ${font}`;
+        ctx.fillText(Math.round(n/monTot2*100)+"%", cx2, Y+24+barMaxH+26);
+      });
+      Y+=barMaxH+44;
+    }
+
+    // Pagamentos
+    sec("FORMAS DE PAGAMENTO");
+    const pgEntries2=Object.entries(d.porPg).filter(([,v])=>v>0);
+    const pgTot2=pgEntries2.reduce((s,[,v])=>s+v,0)||1;
+    if(pgEntries2.length===0){
+      ctx.fillStyle="#94a3b8"; ctx.font=`400 10px ${font}`; ctx.textAlign="center";
+      ctx.fillText("Nenhum pagamento registrado", X+CW/2, Y+18);
+    } else {
+      const r2=36,cxd=X+48,cyd=Y+48,sw2=12,circ2=2*Math.PI*r2;
+      ctx.fillStyle="#f1f5f9"; ctx.beginPath(); ctx.arc(cxd,cyd,r2+sw2/2,0,Math.PI*2); ctx.fill();
+      let off2=0;
+      pgEntries2.forEach(([pg,n])=>{
+        const dash=(n/pgTot2)*circ2;
+        ctx.strokeStyle=PG_C[pg]; ctx.lineWidth=sw2; ctx.lineCap="butt";
+        ctx.beginPath();
+        ctx.arc(cxd,cyd,r2,-Math.PI/2+off2/r2,-Math.PI/2+(off2+dash)/r2);
+        ctx.stroke(); off2+=dash;
+      });
+      ctx.fillStyle="#1e293b"; ctx.font=`800 15px ${font}`; ctx.textAlign="center";
+      ctx.fillText(pgTot2, cxd, cyd+5);
+      ctx.fillStyle="#94a3b8"; ctx.font=`400 8px ${font}`; ctx.fillText("total",cxd,cyd+17);
+      const legX=X+104;
+      pgEntries2.forEach(([pg,n],i)=>{
+        const ly=Y+8+i*26;
+        _rrect(ctx,legX,ly,10,10,3,PG_C[pg]);
+        ctx.fillStyle="#334155"; ctx.font=`500 11px ${font}`; ctx.textAlign="left";
+        ctx.fillText(PG_L[pg], legX+16, ly+9);
+        ctx.fillStyle=PG_C[pg]; ctx.font=`700 11px ${font}`; ctx.textAlign="right";
+        ctx.fillText(Math.round(n/pgTot2*100)+"%", X+CW, ly+9);
+      });
+    }
+  });
+
+  const a=document.createElement("a");
+  a.download=filename;
+  a.href=canvas.toDataURL("image/png",1.0);
+  a.click();
+  toast("✓ Imagem salva!");
+}
+
+// ═══ RETORNO PICKER ═══
+let retornoSel = null; // { sala, time }
+
+function renderRetornoPicker(key){
+  retornoSel = null;
+  const parts = key.split("_");
+  const dateStr = parts[0];
+  const currentSala = parseInt(parts[1]);
+  const currentTime = parts[2];
+
+  const d = calcDataRetorno(dateStr);
+  const dKey = dk(d);
+  const dayName = WKD[d.getDay()];
+  const retDate = `${_Z(d.getDate())}/${_Z(d.getMonth()+1)}`;
+
+  document.getElementById("retPickerDate").textContent =
+    `Horários disponíveis — ${dayName}, ${retDate}`;
+
+  const container = document.getElementById("retPickerSlots");
+  container.innerHTML = "";
+
+  let temAlgum = false;
+
+  [1, 2].forEach(sala => {
+    const livres = TIMES.filter(t => {
+      const k = `${dKey}_${sala}_${t}`;
+      return !appts[k]?.p && !appts[k]?.blocked;
+    });
+
+    const lbl = document.createElement("div");
+    lbl.className = "ret-sala-label";
+    const sc = sala===1 ? "var(--s1h)" : "var(--s2h)";
+    lbl.style.color = sc;
+    lbl.textContent = `Sala ${sala}`;
+    container.appendChild(lbl);
+
+    if(livres.length === 0){
+      const emp = document.createElement("div");
+      emp.className = "ret-empty";
+      emp.textContent = "Nenhum horário livre neste dia";
+      container.appendChild(emp);
+      return;
+    }
+
+    temAlgum = true;
+    const row = document.createElement("div");
+    row.className = "ret-slots";
+
+    livres.forEach(t => {
+      const btn = document.createElement("button");
+      btn.className = "ret-slot";
+      // pré-seleciona mesma sala e mesmo horário se disponível
+      const isSuggested = (sala === currentSala && t === currentTime);
+      if(isSuggested){
+        btn.classList.add("sel");
+        retornoSel = { sala, time: t };
+      }
+      btn.textContent = t;
+      btn.dataset.sala = sala;
+      btn.dataset.time = t;
+      btn.onclick = () => {
+        document.querySelectorAll(".ret-slot").forEach(b => b.classList.remove("sel"));
+        btn.classList.add("sel");
+        retornoSel = { sala, time: t };
+      };
+      row.appendChild(btn);
+    });
+
+    container.appendChild(row);
+  });
+
+  if(!temAlgum){
+    container.innerHTML = `<div class="ret-empty" style="margin-top:4px">Nenhum horário livre em ${retDate}. Considere remarcar manualmente.</div>`;
+  }
+}
+
+// ═══ RETORNO 7 DIAS ═══
+
+// Retorna a data do retorno já ajustada para o próximo dia útil (seg–sex, sem feriado)
+function calcDataRetorno(dateStr){
+  const d=new Date(dateStr+"T12:00:00");
+  d.setDate(d.getDate()+7);
+  // Pula fins de semana e feriados
+  let tentativas=0;
+  while(tentativas<14){
+    const day=d.getDay(); // 0=dom, 6=sab
+    if(day===0){ d.setDate(d.getDate()+1); tentativas++; continue; }
+    if(day===6){ d.setDate(d.getDate()+2); tentativas++; continue; }
+    if(HOL[dk(d)]){ d.setDate(d.getDate()+1); tentativas++; continue; }
+    break;
+  }
+  return d;
+}
+
+function agendarRetorno(){
+  if(!editKey) return;
+  const a=appts[editKey];
+  if(!a?.p){ toast("Salve o paciente antes de agendar o retorno."); return; }
+
+  if(!retornoSel){ toast("Selecione um horário disponível acima."); return; }
+
+  const parts=editKey.split("_");
+  const dateStr=parts[0];
+
+  const d=calcDataRetorno(dateStr);
+  const sala = retornoSel.sala;
+  const time = retornoSel.time;
+  const newKey=`${dk(d)}_${sala}_${time}`;
+
+  if(appts[newKey]?.p){
+    toast("Horario em " + fd(d) + " ja esta ocupado!");
+    return;
+  }
+
+  // Verifica se paciente já tem retorno neste dia
+  const nomePac = a.p;
+  const jaAgendado = Object.keys(appts).find(k => {
+    if(k === editKey) return false;
+    const kParts = k.split("_");
+    return kParts[0] === dk(d) && appts[k]?.p === nomePac;
+  });
+  if(jaAgendado){
+    const jaSala = jaAgendado.split("_")[1];
+    const jaTime = jaAgendado.split("_")[2];
+    toast(`${nomePac.split(" ")[0]} já tem retorno neste dia às ${jaTime} (Sala ${jaSala}).`);
+    return;
+  }
+
+  let found=false;
+  MONTHS.forEach((m,mi)=>{
+    getWeeks(m.k).forEach((wk,wi)=>{
+      if(wk.some(dt=>dk(dt)===dk(d))){
+        found=true;
+        const retData={p:a.p,t:a.t||"",a:a.a||"",m:a.m||"",s:"ativo"};
+        appts[newKey]=retData;
+        saveLocal();
+        if(dbRef) pushToCloud(newKey,retData);
+        closeM();
+        curM=mi; curW=wi; weeks=getWeeks(MONTHS[curM].k);
+        renderTabs(); renderW();
+        const dayName=WKD[d.getDay()];
+        toast("Retorno agendado: " + dayName + " " + fd(d) + " às " + time + " — Sala " + sala);
+      }
+    });
+  });
+  if(!found) toast("Data fora do período da agenda (mar–dez 2026).");
+}
+
+function agendarRetornoComWhatsApp(){
+  if(!editKey) return;
+  const a=appts[editKey];
+  if(!a?.p){ toast("Salve o paciente antes de agendar o retorno."); return; }
+
+  if(!retornoSel){
+    toast("Selecione um horário disponível acima.");
+    return;
+  }
+
+  const parts=editKey.split("_");
+  const dateStr=parts[0];
+
+  const d=calcDataRetorno(dateStr);
+  const sala = retornoSel.sala;
+  const time = retornoSel.time;
+  const newKey=`${dk(d)}_${sala}_${time}`;
+
+  if(appts[newKey]?.p){
+    toast("Este horário acabou de ser ocupado. Escolha outro.");
+    renderRetornoPicker(editKey);
+    return;
+  }
+
+  // Verifica se paciente já tem retorno neste dia
+  const nomePac = a.p;
+  const jaAgendado = Object.keys(appts).find(k => {
+    if(k === editKey) return false;
+    const kParts = k.split("_");
+    return kParts[0] === dk(d) && appts[k]?.p === nomePac;
+  });
+  if(jaAgendado){
+    const jaSala = jaAgendado.split("_")[1];
+    const jaTime = jaAgendado.split("_")[2];
+    toast(`${nomePac.split(" ")[0]} já tem retorno neste dia às ${jaTime} (Sala ${jaSala}).`);
+    return;
+  }
+
+  // Agenda o retorno
+  let found=false;
+  MONTHS.forEach((m,mi)=>{
+    getWeeks(m.k).forEach((wk,wi)=>{
+      if(wk.some(dt=>dk(dt)===dk(d))){
+        found=true;
+        const retData={p:a.p,t:a.t||"",a:a.a||"",m:a.m||"",s:"ativo"};
+        appts[newKey]=retData;
+        saveLocal();
+        if(dbRef) pushToCloud(newKey,retData);
+        closeM();
+        curM=mi; curW=wi; weeks=getWeeks(MONTHS[curM].k);
+        renderTabs(); renderW();
+      }
+    });
+  });
+  if(!found){ toast("Data fora do periodo da agenda (mar-dez 2026)."); return; }
+
+  // Envia WhatsApp
+  const rawTel=(a.t||"").replace(/\D/g,"");
+  if(!rawTel||rawTel.length<8){
+    toast("Retorno agendado! Mas o telefone nao esta cadastrado para enviar mensagem.");
+    return;
+  }
+  const tel=rawTel.startsWith("55")?rawTel:"55"+rawTel;
+
+  const nome=a.p.split(" ")[0];
+  const dayName=WKD[d.getDay()];
+  const retDate=`${_Z(d.getDate())}/${_Z(d.getMonth()+1)}`;
+
+  const msg =
+`Olá, ${nome}! Que bom ter você conosco hoje!
+
+Seu retorno já está reservado especialmente para você:
+*${dayName}, ${retDate} às ${time}h*
+
+Nos vemos em breve para seguirmos acompanhando sua evolução! Estamos aqui por você!
+
+Até logo! :)
+
+_Centro Clínico de Nutrição — Faculdade Anhanguera_
+Tel.: (11) 3699-9046 / 3699-9049
+Av. dos Autonomistas, 1325 - Vila Campesina, Osasco SP`;
+
+  const url=`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`;
+  window.open(url,"_blank");
+  toast("Retorno agendado e mensagem enviada!");
+}
+
+// ═══ LEMBRETE GOOGLE AGENDA ═══
+function criarLembreteGCalendar(){
+  if(!editKey) return;
+  const a=appts[editKey];
+  if(!a?.p){ toast("Salve o paciente antes."); return; }
+
+  const parts=editKey.split("_");
+  const dateStr=parts[0];
+  const time=parts[2];
+
+  // Data do retorno (com desvio de feriado/fim de semana)
+  const d=calcDataRetorno(dateStr);
+
+  // Monta horário no formato YYYYMMDDTHHMMSS (hora local de Brasília, sem Z)
+  const [hh, mm] = time.split(":").map(Number);
+  const pad = n => String(n).padStart(2,"0");
+  const yy = d.getFullYear();
+  const mo = pad(d.getMonth()+1);
+  const dd = pad(d.getDate());
+
+  // Início e fim do evento (30 min de duração)
+  const dtStart = `${yy}${mo}${dd}T${pad(hh)}${pad(mm)}00`;
+  const endMin = mm + 30;
+  const endHH = endMin >= 60 ? hh+1 : hh;
+  const endMM = endMin >= 60 ? endMin-60 : endMin;
+  const dtEnd = `${yy}${mo}${dd}T${pad(endHH)}${pad(endMM)}00`;
+
+  // Data do lembrete = 1 dia antes, às 09h
+  const dLemb = new Date(d);
+  dLemb.setDate(dLemb.getDate()-1);
+  const yyL = dLemb.getFullYear();
+  const moL = pad(dLemb.getMonth()+1);
+  const ddL = pad(dLemb.getDate());
+  const dtLemb = `${yyL}${moL}${ddL}T090000`;
+
+  const nome = a.p;
+  const title = encodeURIComponent(`Enviar lembrete WhatsApp — Retorno: ${nome}`);
+  const details = encodeURIComponent(
+    `Paciente: ${nome}\nTelefone: ${a.t||"—"}\nHorário do retorno: ${time}h\n\nLembre-se de abrir a agenda e clicar em "Agendar + avisar" para enviar a mensagem de confirmação pelo WhatsApp.`
+  );
+  const location = encodeURIComponent("Centro Clínico de Nutrição — Anhanguera, Av. dos Autonomistas, 1325 - Osasco SP");
+
+  // URL do Google Calendar com alarme via reminders
+  const url = `https://calendar.google.com/calendar/render?action=TEMPLATE`
+    + `&text=${title}`
+    + `&dates=${dtLemb}/${dtLemb.replace("T090000","T091500")}`
+    + `&details=${details}`
+    + `&location=${location}`
+    + `&add=${encodeURIComponent("")}`
+    + `&crm=AVAILABLE`
+    + `&reminders=email,0,popup,0`;
+
+  window.open(url, "_blank");
+  toast("Google Agenda aberto! Confirme o evento para salvar o lembrete.");
+}
+
 // ═══ MOBILE MENU ═══
 function openMobMenu(){
   document.getElementById("mobDrawer").classList.add("open");
@@ -1470,6 +2318,8 @@ function closeMobMenu(){
   document.getElementById("mobDrawer").classList.remove("open");
   document.getElementById("mobOverlay").classList.remove("open");
 }
+
+
 
 // ═══ KEYBOARD ═══
 document.addEventListener("keydown",e=>{
