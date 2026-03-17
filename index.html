@@ -12,9 +12,9 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 /* ═══════════════════════════════════════════════
-   NUTRI LUXE — 2026  |  Bege · Caramelo · Marrom
-   Sofisticado, legível, zero cansaço visual
-   Outfit × Plus Jakarta Sans × JetBrains Mono
+   EDITORIAL LUXE — 2026 AESTHETIC
+   Warm obsidian + champagne gold
+   Typography: Outfit × Plus Jakarta Sans
    ═══════════════════════════════════════════════ */
 
 /* ─── CUSTOM SELECTION ─── */
@@ -42,15 +42,15 @@ body::after {
   font-family:'Plus Jakarta Sans',sans-serif;
 }
 #loginScreen::before {
-  content:"";position:absolute;top:-25%;left:25%;
+  content:"";position:absolute;top:-30%;left:30%;
   width:700px;height:700px;border-radius:50%;
-  background:radial-gradient(circle,rgba(185,140,80,.1) 0%,transparent 65%);
+  background:radial-gradient(circle,rgba(185,140,80,.12) 0%,transparent 65%);
   pointer-events:none;
 }
 #loginScreen::after {
-  content:"";position:absolute;bottom:-15%;right:15%;
+  content:"";position:absolute;bottom:-20%;right:20%;
   width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(145,100,55,.07) 0%,transparent 65%);
+  background:radial-gradient(circle,rgba(145,100,55,.08) 0%,transparent 65%);
   pointer-events:none;
 }
 .login-card{
@@ -72,8 +72,8 @@ body::after {
 }
 .login-logo::after{
   content:"";position:absolute;top:0;left:0;right:0;height:50%;
-  background:linear-gradient(180deg,rgba(255,255,255,.08) 0%,transparent 100%);
-  border-radius:24px 24px 0 0;
+  background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,transparent 100%);
+  border-radius:22px 22px 0 0;
 }
 .login-title{font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;color:#f5ecd8;margin-bottom:5px;letter-spacing:-.6px}
 .login-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(185,140,80,.5);margin-bottom:36px;text-transform:uppercase;letter-spacing:3px;font-weight:500}
@@ -89,12 +89,12 @@ body::after {
 }
 .login-input::placeholder{color:rgba(245,236,216,.25)}
 .login-input:focus{border-color:rgba(185,140,80,.45);background:rgba(185,140,80,.08);box-shadow:0 0 0 4px rgba(185,140,80,.08)}
-.login-input.err{border-color:rgba(220,90,80,.7);animation:shake .35s ease}
+.login-input.err{border-color:rgba(220,90,80,.6);animation:shake .35s ease}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);
   background:none;border:none;cursor:pointer;color:rgba(185,140,80,.35);font-size:16px;padding:0;transition:color .15s}
 .eye-btn:hover{color:rgba(185,140,80,.8)}
-.login-err{font-size:13px;color:#e88068;margin-bottom:12px;min-height:16px;text-align:left;font-family:'Plus Jakarta Sans',sans-serif}
+.login-err{font-size:13px;color:#e07060;margin-bottom:12px;min-height:16px;text-align:left;font-family:'Plus Jakarta Sans',sans-serif}
 .login-btn{
   width:100%;padding:16px;border:none;border-radius:14px;cursor:pointer;
   font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;
@@ -108,7 +108,6 @@ body::after {
 @keyframes fadeOut{to{opacity:0;pointer-events:none}}
 
 /* ─── THEME VARIABLES ─── */
-/* S1=caramelo #a06830  S2=mauve-marrom #8a607a */
 :root{
   --bg:#f8f3ec;--sur:#ffffff;--su2:rgba(160,104,48,.07);--brd:rgba(160,104,48,.16);
   --t1:#1e0f06;--t2:rgba(30,15,6,.65);--t3:#7a5030;
@@ -223,7 +222,7 @@ body::before{
 }
 .hdiv{width:1px;height:30px;background:var(--brd)}
 .anh{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--t3)}
-.cn{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--t1);line-height:1.1;letter-spacing:-.5px}
+.cn{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--t1);line-height:1.1;letter-spacing:-.4px}
 .cs{font-family:var(--font-mono);font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-weight:500}
 .hright{display:flex;align-items:center;gap:7px}
 
@@ -294,7 +293,7 @@ body::before{
   justify-content:center;color:var(--t2);font-size:18px;transition:all .2s;
 }
 .wb:hover{background:linear-gradient(135deg,var(--acc),var(--ac2));color:#fff;border-color:var(--acc);box-shadow:0 0 20px rgba(160,104,48,.2);transform:scale(1.05)}
-.wl{flex:1;font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+.wl{flex:1;font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--t1);letter-spacing:-.2px}
 .wl span{font-family:var(--font-body);font-weight:400;color:var(--t3);font-size:13px;margin-left:10px}
 .wp{
   font-family:var(--font-mono);font-size:12px;color:var(--t3);font-weight:600;
@@ -363,7 +362,7 @@ body::before{
 .sb.s-ca{background:var(--cbg)}
 .sb.s-fa{background:var(--obg)}
 .sb.s-re{background:var(--rbg)}
-.sp{font-family:var(--font-body);font-size:13px;font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp{font-family:var(--font-body);font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .s-at .sp{color:var(--ftx)}
 .s-ca .sp{color:var(--ctx);text-decoration:line-through;text-decoration-thickness:1.5px}
 .s-fa .sp{color:var(--otx)}
@@ -409,7 +408,7 @@ body::before{
 }
 .ovl.open .modal{transform:translateY(0) scale(1)}
 .mhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
-.mtt{font-family:var(--font-display);font-size:21px;font-weight:700;color:var(--t1);letter-spacing:-.4px}
+.mtt{font-family:var(--font-display);font-size:21px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
 .msb{font-family:var(--font-body);font-size:13px;color:var(--t3);margin-top:5px}
 .mx{
   width:30px;height:30px;border-radius:10px;border:1px solid var(--brd);
@@ -562,7 +561,7 @@ body::before{
   .hdiv{display:none}
   .chdr{padding:14px 16px}
   .dd{font-size:16px}
-  .slot{height:52px}
+  .slot{height:60px}
   .card{border-radius:14px}
   .modal{padding:24px;border-radius:20px}
 }
@@ -581,7 +580,7 @@ body::before{
   .ph-l{display:flex;align-items:center;gap:10px}
   .ph-logo{width:36px;height:36px;background:linear-gradient(135deg,#a06830,#7c5224);border-radius:8px;
     display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .ph-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:#1e0f06;line-height:1.1}
+  .ph-title{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:#0a0a0a;line-height:1.1}
   .ph-sub{font-size:8.5px;color:#64748b;text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
   .ph-r{text-align:right}
   .ph-week{font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:#a06830}
@@ -623,55 +622,38 @@ body::before{
     display:flex;justify-content:space-between;font-size:7.5px;color:#bbb}
 }
 
-/* ═══ NUTRI PREMIUM EXTRAS ═══════════════════════════════════════ */
-
-/* Body bg com luz suave */
+/* ═══ NUTRI PREMIUM ══════════════════════════════════════════════ */
 body{
   background:
-    radial-gradient(ellipse 70% 40% at 10% -5%,  rgba(160,104,48,.06) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 30% at 88% 95%,  rgba(138,96,122,.04) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 40% at 10% -5%, rgba(160,104,48,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 30% at 88% 95%, rgba(138,96,122,.04) 0%, transparent 55%),
     var(--bg);
 }
-
-/* Header linha luminosa */
 .hdr::after{
   content:"";position:absolute;bottom:0;left:0;right:0;height:1px;
   background:linear-gradient(90deg,transparent,rgba(160,104,48,.3) 30%,rgba(138,96,122,.25) 70%,transparent);
 }
-
-/* Sala colored left border */
 .sala-1 .slh{ border-left:3px solid var(--s1h); padding-left:14px; }
 .sala-2 .slh{ border-left:3px solid var(--s2h); padding-left:14px; }
 .sala-1 .sd { background:var(--s1h) !important; box-shadow:0 0 8px rgba(160,104,48,.35); }
 .sala-2 .sd { background:var(--s2h) !important; box-shadow:0 0 8px rgba(138,96,122,.3); }
 .sala-1 .sl { color:var(--s1h) !important; }
 .sala-2 .sl { color:var(--s2h) !important; }
-
-/* Slot preenchido: sala 1 caramelo, sala 2 mauve */
 .sala-1 .sb.s-at{ background:rgba(160,104,48,.08); }
 .sala-2 .sb.s-at{ background:rgba(138,96,122,.08); }
-.sala-1 .sp{ color:var(--t1); }
-.sala-2 .sb.s-at .sp{ color:#5a2e5a; }
-[data-theme="tarde"] .sala-2 .sb.s-at .sp,
-[data-theme="noite"] .sala-2 .sb.s-at .sp{ color:#e8d5f0; }
 .sala-1 .s-at .sp{ color:#5c3010; }
+.sala-2 .s-at .sp{ color:#4a1e4a; }
 [data-theme="tarde"] .sala-1 .s-at .sp,
 [data-theme="noite"] .sala-1 .s-at .sp{ color:#f0d5b0; }
-
-/* Today card */
+[data-theme="tarde"] .sala-2 .s-at .sp,
+[data-theme="noite"] .sala-2 .s-at .sp{ color:#e8d5f0; }
 .today-card{
   border-color:var(--acc) !important;
   box-shadow:var(--sh1),0 0 0 1px var(--acL) inset,0 0 24px var(--acL) !important;
 }
 .today-card .chdr{ background:var(--acL); }
-
-/* Card base sombra suave */
 .card{ box-shadow:0 2px 8px rgba(30,15,6,.07),0 0 0 1px var(--brd); }
-
-/* Active tab */
 .mt.on{ color:var(--acc) !important; border-bottom-color:var(--acc) !important; }
-
-/* Mobile responsivo */
 @media(max-width:640px){
   .sp  { font-size:12.5px; }
   .stel{ font-size:11px; }
@@ -685,7 +667,7 @@ body{
   .stp { font-size:12px; padding:9px 15px; }
   .wl  { font-size:15px; }
 }
-/* ═══ END NUTRI PREMIUM ════════════════════════════════════════== */
+/* ═══ FIM NUTRI PREMIUM ══════════════════════════════════════════ */
 </style>
 </head>
 <body data-theme="dia">
@@ -917,71 +899,7 @@ body{
       .atab.on{background:linear-gradient(135deg,var(--acc),var(--ac2));color:#fff;box-shadow:0 4px 16px rgba(160,104,48,.2)}
       .atab.off{background:transparent;color:var(--t3)}
       .atab.off:hover{color:var(--acc)}
-    
-/* ═══ NUTRI PREMIUM EXTRAS ═══════════════════════════════════════ */
-
-/* Body bg com luz suave */
-body{
-  background:
-    radial-gradient(ellipse 70% 40% at 10% -5%,  rgba(160,104,48,.06) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 30% at 88% 95%,  rgba(138,96,122,.04) 0%, transparent 55%),
-    var(--bg);
-}
-
-/* Header linha luminosa */
-.hdr::after{
-  content:"";position:absolute;bottom:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(160,104,48,.3) 30%,rgba(138,96,122,.25) 70%,transparent);
-}
-
-/* Sala colored left border */
-.sala-1 .slh{ border-left:3px solid var(--s1h); padding-left:14px; }
-.sala-2 .slh{ border-left:3px solid var(--s2h); padding-left:14px; }
-.sala-1 .sd { background:var(--s1h) !important; box-shadow:0 0 8px rgba(160,104,48,.35); }
-.sala-2 .sd { background:var(--s2h) !important; box-shadow:0 0 8px rgba(138,96,122,.3); }
-.sala-1 .sl { color:var(--s1h) !important; }
-.sala-2 .sl { color:var(--s2h) !important; }
-
-/* Slot preenchido: sala 1 caramelo, sala 2 mauve */
-.sala-1 .sb.s-at{ background:rgba(160,104,48,.08); }
-.sala-2 .sb.s-at{ background:rgba(138,96,122,.08); }
-.sala-1 .sp{ color:var(--t1); }
-.sala-2 .sb.s-at .sp{ color:#5a2e5a; }
-[data-theme="tarde"] .sala-2 .sb.s-at .sp,
-[data-theme="noite"] .sala-2 .sb.s-at .sp{ color:#e8d5f0; }
-.sala-1 .s-at .sp{ color:#5c3010; }
-[data-theme="tarde"] .sala-1 .s-at .sp,
-[data-theme="noite"] .sala-1 .s-at .sp{ color:#f0d5b0; }
-
-/* Today card */
-.today-card{
-  border-color:var(--acc) !important;
-  box-shadow:var(--sh1),0 0 0 1px var(--acL) inset,0 0 24px var(--acL) !important;
-}
-.today-card .chdr{ background:var(--acL); }
-
-/* Card base sombra suave */
-.card{ box-shadow:0 2px 8px rgba(30,15,6,.07),0 0 0 1px var(--brd); }
-
-/* Active tab */
-.mt.on{ color:var(--acc) !important; border-bottom-color:var(--acc) !important; }
-
-/* Mobile responsivo */
-@media(max-width:640px){
-  .sp  { font-size:12.5px; }
-  .stel{ font-size:11px; }
-  .st  { font-size:10.5px; width:44px; min-width:44px; }
-  .dn  { font-size:9.5px; }
-  .dd  { font-size:19px; }
-  .mt  { font-size:12px; padding:13px 14px; }
-  .fi  { font-size:16px; }
-  .mtt { font-size:19px; }
-  .fl  { font-size:10px; }
-  .stp { font-size:12px; padding:9px 15px; }
-  .wl  { font-size:15px; }
-}
-/* ═══ END NUTRI PREMIUM ════════════════════════════════════════== */
-</style>
+    </style>
     <div style="background:linear-gradient(135deg,rgba(160,104,48,.09) 0%,rgba(138,96,122,.04) 60%,transparent 100%);
       padding:30px 30px 26px;flex-shrink:0;border-bottom:1px solid rgba(201,169,110,.08)">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
@@ -1945,7 +1863,7 @@ function buildAnalytics(){
     ].map(({v,l,c,bg,border})=>`
       <div style="background:${bg};border:1px solid ${border};border-radius:18px;padding:18px 20px">
         <div style="font-family:var(--font-display);font-size:24px;font-weight:900;color:${c};line-height:1;letter-spacing:-.5px">${v}</div>
-        <div style="font-family:var(--font-mono);font-size:9px;color:var(--t3);margin-top:8px;text-transform:uppercase;letter-spacing:1px;font-weight:600">${l}</div>
+        <div style="font-family:var(--font-mono);font-size:8px;color:var(--t3);margin-top:8px;text-transform:uppercase;letter-spacing:1px;font-weight:600">${l}</div>
       </div>`).join("")}
   </div>`;
 
@@ -2005,71 +1923,7 @@ function buildAnalytics(){
             </div>`;
           }).join("")}
         </div>
-        <style>@keyframes colUp{from{height:0 !important}to{}}
-/* ═══ NUTRI PREMIUM EXTRAS ═══════════════════════════════════════ */
-
-/* Body bg com luz suave */
-body{
-  background:
-    radial-gradient(ellipse 70% 40% at 10% -5%,  rgba(160,104,48,.06) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 30% at 88% 95%,  rgba(138,96,122,.04) 0%, transparent 55%),
-    var(--bg);
-}
-
-/* Header linha luminosa */
-.hdr::after{
-  content:"";position:absolute;bottom:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(160,104,48,.3) 30%,rgba(138,96,122,.25) 70%,transparent);
-}
-
-/* Sala colored left border */
-.sala-1 .slh{ border-left:3px solid var(--s1h); padding-left:14px; }
-.sala-2 .slh{ border-left:3px solid var(--s2h); padding-left:14px; }
-.sala-1 .sd { background:var(--s1h) !important; box-shadow:0 0 8px rgba(160,104,48,.35); }
-.sala-2 .sd { background:var(--s2h) !important; box-shadow:0 0 8px rgba(138,96,122,.3); }
-.sala-1 .sl { color:var(--s1h) !important; }
-.sala-2 .sl { color:var(--s2h) !important; }
-
-/* Slot preenchido: sala 1 caramelo, sala 2 mauve */
-.sala-1 .sb.s-at{ background:rgba(160,104,48,.08); }
-.sala-2 .sb.s-at{ background:rgba(138,96,122,.08); }
-.sala-1 .sp{ color:var(--t1); }
-.sala-2 .sb.s-at .sp{ color:#5a2e5a; }
-[data-theme="tarde"] .sala-2 .sb.s-at .sp,
-[data-theme="noite"] .sala-2 .sb.s-at .sp{ color:#e8d5f0; }
-.sala-1 .s-at .sp{ color:#5c3010; }
-[data-theme="tarde"] .sala-1 .s-at .sp,
-[data-theme="noite"] .sala-1 .s-at .sp{ color:#f0d5b0; }
-
-/* Today card */
-.today-card{
-  border-color:var(--acc) !important;
-  box-shadow:var(--sh1),0 0 0 1px var(--acL) inset,0 0 24px var(--acL) !important;
-}
-.today-card .chdr{ background:var(--acL); }
-
-/* Card base sombra suave */
-.card{ box-shadow:0 2px 8px rgba(30,15,6,.07),0 0 0 1px var(--brd); }
-
-/* Active tab */
-.mt.on{ color:var(--acc) !important; border-bottom-color:var(--acc) !important; }
-
-/* Mobile responsivo */
-@media(max-width:640px){
-  .sp  { font-size:12.5px; }
-  .stel{ font-size:11px; }
-  .st  { font-size:10.5px; width:44px; min-width:44px; }
-  .dn  { font-size:9.5px; }
-  .dd  { font-size:19px; }
-  .mt  { font-size:12px; padding:13px 14px; }
-  .fi  { font-size:16px; }
-  .mtt { font-size:19px; }
-  .fl  { font-size:10px; }
-  .stp { font-size:12px; padding:9px 15px; }
-  .wl  { font-size:15px; }
-}
-/* ═══ END NUTRI PREMIUM ════════════════════════════════════════== */
-</style>`}
+        <style>@keyframes colUp{from{height:0 !important}to{}}</style>`}
   </div>`;
 
   const pgEntries=Object.entries(d.porPg).filter(([,v])=>v>0);
